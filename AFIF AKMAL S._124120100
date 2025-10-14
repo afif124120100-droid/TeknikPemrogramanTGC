@@ -1,0 +1,56 @@
+#Sistem Data Survey Seismik
+survey = {
+    "Survey_A": [
+        {"trace_id": 1, "receiver": "R1", "offset": 100, "QC_flag": "OK"},
+        {"trace_id": 2, "receiver": "R2", "offset": 150, "QC_flag": "OK"},
+        {"trace_id": 3, "receiver": "R3", "offset": 200, "QC_flag": "BAD"}
+    ],
+    "Survey_B": [
+        {"trace_id": 4, "receiver": "R1", "offset": 120, "QC_flag": "OK"},
+        {"trace_id": 5, "receiver": "R4", "offset": 250, "QC_flag": "OK"},
+        {"trace_id": 6, "receiver": "R2", "offset": 300, "QC_flag": "BAD"}
+    ],
+    "Survey_C": [
+        {"trace_id": 7, "receiver": "R5", "offset": 180, "QC_flag": "OK"}
+    ]
+}
+
+# 1
+print("Trace BAD:")
+for a,b in survey.items():
+    for c in b:
+        if c["QC_flag"]=="BAD":
+            print(c["trace_id"])
+
+# 2
+total=0
+for b in survey.values():
+    total+=len(b)
+print("Total trace =",total)
+
+# 3
+nama=""
+banyak=0
+for a,b in survey.items():
+    if len(b)>banyak:
+        banyak=len(b)
+        nama=a
+print("Survey terbanyak:",nama)
+
+# 4
+r=set()
+for b in survey.values():
+    for c in b:
+        r.add(c["receiver"])
+print("Receiver unik:",r)
+
+# 5
+rc={}
+for b in survey.values():
+    for c in b:
+        d=c["receiver"]
+        if d in rc:
+            rc[d]+=1
+        else:
+            rc[d]=1
+print("Jumlah trace tiap receiver:",rc)
