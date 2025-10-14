@@ -1,0 +1,47 @@
+#Latihan Two-Way Travel Time (TWT)
+# buka file dan baca isinya doloo
+try:
+    file = open("data_twt.txt", "r")
+    baris = file.readlines()
+    file.close()
+except:
+    print("yaachh file nya gak ketemu, pastiin nama filenya data_twt.txt yaaa")
+    baris = []
+
+# kalau gak kosong kita next
+if len(baris) > 0:
+    data = []
+    # skip baris pertama karena itu header
+    for i in range(1, len(baris)):
+        pisah = baris[i].strip().split(",")
+        try:
+            shot = int(pisah[0])
+            receiver = int(pisah[1])
+            twt = float(pisah[2])
+            data.append({"shot": shot, "receiver": receiver, "twt": twt})
+        except:
+            print("baris error, next")
+
+    # cari twt_min
+    twt_min = min(d["twt"] for d in data)
+
+    # normalisasi twt
+    for d in data:
+        try:
+            d["twt_norm"] = (d["twt"] - twt_min) / (600 - twt_min)
+        except:
+            d["twt_norm"] = 0  # kalo error isi aja 0 biar gak marah python
+
+    # simpen ke file baru
+    try:
+        f = open("hasil_normalisasi.csv", "w")
+        f.write("shot,receiver,twt,twt_norm\n")
+        for d in data:
+            f.write(f"{d['shot']},{d['receiver']},{d['twt']},{d['twt_norm']}\n")
+        f.close()
+        print("success_normalisasi.csv ")
+    except:
+        print("error file")
+else:
+    print("empty  file")
+
